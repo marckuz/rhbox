@@ -1,4 +1,14 @@
+import image from "assets/img/sidebar-2.jpg";
+
 const signInStyle = theme => ({
+  parentmain: {
+    backgroundImage: "url(" + image + ")",
+    display: "flex!important",
+    minHeight: "100vh",
+    alignItems: "center",
+    backgroundSize: "cover",
+    backgroundPosition: "center center"
+  },
   main: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.

@@ -1,6 +1,6 @@
 import React from "react"
 import { compose, withProps, lifecycle, withHandlers } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, Rectangle, Circle, Polyline, DirectionsRenderer,OverlayView  } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker  } from "react-google-maps"
 import { MarkerClusterer } from "react-google-maps/lib/components/addons/MarkerClusterer";
 import constants from "variables/constants";
 import request from 'utils/request';

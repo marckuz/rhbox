@@ -18,7 +18,6 @@ import constants from "variables/constants";
 import request from 'utils/request';
 import auth from 'utils/auth';
 
-import image from "assets/img/sidebar-2.jpg";
 
 class SignIn extends React.Component {
 
@@ -102,64 +101,60 @@ class SignIn extends React.Component {
     window.removeEventListener("resize", this.resizeFunction);
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
-      <main className={classes.main}>
-        <CssBaseline />
-        {image !== undefined ? (
-            <div
-              className={classes.background}
-              style={{ backgroundImage: "url(" + image + ")" }}
-            />
-          ) : null}
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form className={classes.form} onSubmit={this.login}>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input 
-                onChange={this.handleChange} 
-                id="email" 
-                name="email" 
-                autoComplete="email" 
-                autoFocus />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input 
-                onChange={this.handleChange} 
-                name="password"
-                type="password" 
-                id="password" 
-                autoComplete="current-password" />
-            </FormControl>
-            <FormControlLabel
-              control={
-                <Checkbox 
-                onChange={this.handleChange} 
-                value="rememberMe"
-                name="rememberMe"
-                color="primary" />
-              }
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
+      <parentmain className={classes.parentmain}>
+        <main className={classes.main}>
+          <CssBaseline />
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockIcon />
+            </Avatar>
+            <Typography component="h1" variant="title">
               Sign in
-            </Button>
-          </form>
-        </Paper>
-      </main>
+            </Typography>
+            <form className={classes.form} onSubmit={this.login}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Email Address</InputLabel>
+                <Input 
+                  onChange={this.handleChange} 
+                  id="email" 
+                  name="email" 
+                  autoComplete="email" 
+                  autoFocus />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <Input 
+                  onChange={this.handleChange} 
+                  name="password"
+                  type="password" 
+                  id="password" 
+                  autoComplete="current-password" />
+              </FormControl>
+              <FormControlLabel
+                control={
+                  <Checkbox 
+                  onChange={this.handleChange} 
+                  value="rememberMe"
+                  name="rememberMe"
+                  color="primary" />
+                }
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign in
+              </Button>
+            </form>
+          </Paper>
+        </main>
+      </parentmain>
     );
   }
 }
