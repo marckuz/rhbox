@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import { createBrowserHistory } from "history";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "assets/css/material-dashboard-react.css?v=1.5.0";
 
@@ -12,20 +12,11 @@ import SignIn from "layouts/SignIn/SignIn.jsx";
 class App extends Component {
   constructor (props) {
     super(props);
-    this.checkSession = this.checkSession.bind(this); 
   }
   state = {
     account : ''
   }
-  componentDidMount() {
-    this.checkSession(); 
-  }
-  checkSession(){
-    console.log("localStorage.getItem('token')  === ", localStorage.getItem('token'));
-    if(localStorage.getItem('token') === null || localStorage.getItem('token') === ''){
-      return <Redirect to='/signin' />
-    }
-  }
+  
 
   render() {
     return (

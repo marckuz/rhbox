@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -20,6 +21,13 @@ import auth from 'utils/auth';
 
 
 class SignIn extends React.Component {
+  checkSession(){
+    console.log("localStorage.getItem('token')  === ", localStorage.getItem('token'));
+    if(localStorage.getItem('token') !== null && localStorage.getItem('token') !== ''){
+      console.log("signin")
+      this.props.history.push('/dashboard');
+    }
+  }
 
   login = e => {
     e.preventDefault();
@@ -71,6 +79,7 @@ class SignIn extends React.Component {
       errors: [], 
       didCheckErrors: false
     };
+    this.checkSession = this.checkSession.bind(this); 
     this.resizeFunction = this.resizeFunction.bind(this);
   }
   handleDrawerToggle = () => {
@@ -85,8 +94,7 @@ class SignIn extends React.Component {
     }
   }
   componentDidMount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-    }
+    this.checkSession(); 
     window.addEventListener("resize", this.resizeFunction);
   }
   componentDidUpdate(e) {

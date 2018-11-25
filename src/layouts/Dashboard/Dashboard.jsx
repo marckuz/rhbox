@@ -35,8 +35,38 @@ class Dashboard extends React.Component {
     this.state = {
       mobileOpen: false
     };
+    this.checkSession = this.checkSession.bind(this); 
     this.resizeFunction = this.resizeFunction.bind(this);
   }
+
+  componentDidMount() {
+    if (navigator.platform.indexOf("Win") > -1) {
+      const ps = new PerfectScrollbar(this.refs.mainPanel);
+    }
+    this.checkSession(); 
+
+    window.addEventListener("resize", this.resizeFunction);
+  }
+  componentDidUpdate(e) {
+    if (e.history.location.pathname !== e.location.pathname) {
+      this.refs.mainPanel.scrollTop = 0;
+      if (this.state.mobileOpen) {
+        this.setState({ mobileOpen: false });
+      }
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resizeFunction);
+  }
+
+  checkSession(){
+    console.log("localStorage.getItem('token')  === ", localStorage.getItem('token'));
+    if(localStorage.getItem('token') === null || localStorage.getItem('token') === ''){
+      console.log("dash")
+      // this.props.history.push('/signin')
+    }
+  }
+
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
@@ -48,23 +78,7 @@ class Dashboard extends React.Component {
       this.setState({ mobileOpen: false });
     }
   }
-  componentDidMount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      const ps = new PerfectScrollbar(this.refs.mainPanel);
-    }
-    window.addEventListener("resize", this.resizeFunction);
-  }
-  componentDidUpdate(e) {
-    // if (e.history.location.pathname !== e.location.pathname) {
-    //   this.refs.mainPanel.scrollTop = 0;
-    //   if (this.state.mobileOpen) {
-    //     this.setState({ mobileOpen: false });
-    //   }
-    // }
-  }
-  componentWillUnmount() {
-    // window.removeEventListener("resize", this.resizeFunction);
-  }
+  
   render() {
     const { classes, ...rest } = this.props;
     return (
