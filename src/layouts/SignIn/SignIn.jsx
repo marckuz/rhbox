@@ -22,8 +22,8 @@ import auth from 'utils/auth';
 
 class SignIn extends React.Component {
   checkSession(){
-    console.log("localStorage.getItem('token')  === ", localStorage.getItem('token'));
-    if(localStorage.getItem('token') !== null && localStorage.getItem('token') !== ''){
+    console.log("auth.getToken())  === ", auth.getToken());
+    if(auth.getToken() !== null && auth.getToken() !== ''){
       console.log("signin")
       this.props.history.push('/dashboard');
     }
@@ -45,8 +45,8 @@ class SignIn extends React.Component {
       .then(response => {
         console.log('response ==== ', response);
 
-        auth.setToken(response.jwt, body.rememberMe);
-        auth.setUserInfo(response.user, body.rememberMe);
+        auth.setToken(response.auth_key, body.rememberMe);
+        auth.setUserInfo(response.username, body.rememberMe);
         this.redirectUser();
       })
       .catch(err => {

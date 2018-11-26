@@ -15,7 +15,7 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import dashboardRoutes from "routes/dashboard.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
-
+import auth from 'utils/auth';
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/favicon_rh-48x48.png";
 
@@ -60,8 +60,8 @@ class Dashboard extends React.Component {
   }
 
   checkSession(){
-    console.log("localStorage.getItem('token')  === ", localStorage.getItem('token'));
-    if(localStorage.getItem('token') === null || localStorage.getItem('token') === ''){
+    console.log("auth.getToken()  === ", auth.getToken());
+    if(auth.getToken() === null || auth.getToken() === ''){
       console.log("dash")
       this.props.history.push('/signin')
     }
