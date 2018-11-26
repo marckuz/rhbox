@@ -1,7 +1,7 @@
 import image from "assets/img/sidebar-2.jpg";
 
 const signInStyle = theme => ({
-  parentmain: {
+  parentMain: {
     backgroundImage: "url(" + image + ")",
     display: "flex!important",
     minHeight: "100vh",

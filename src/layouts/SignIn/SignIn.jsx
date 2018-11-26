@@ -111,7 +111,7 @@ class SignIn extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <parentmain className={classes.parentmain}>
+      <div className={classes.parentMain}>
         <main className={classes.main}>
           <CssBaseline />
           <Paper className={classes.paper}>
@@ -162,7 +162,7 @@ class SignIn extends React.Component {
             </form>
           </Paper>
         </main>
-      </parentmain>
+      </div>
     );
   }
 }
