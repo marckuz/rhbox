@@ -7,7 +7,7 @@ import request from 'utils/request';
 
 const MyMapComponent = compose(
   withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCwO2_2rCfI6CD1puwsBXYFuw498iC3u4g",
+    googleMapURL: "https://maps.googleapis.com/maps/api/js?key="+constants.GOOGLE_API_KEY,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `100vh` }} />,
     mapElement: <div style={{ height: `100%` }} />,
