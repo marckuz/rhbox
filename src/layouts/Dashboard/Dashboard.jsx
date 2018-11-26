@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
     console.log("localStorage.getItem('token')  === ", localStorage.getItem('token'));
     if(localStorage.getItem('token') === null || localStorage.getItem('token') === ''){
       console.log("dash")
-      // this.props.history.push('/signin')
+      this.props.history.push('/signin')
     }
   }
 
