@@ -110,7 +110,7 @@ class MyFancyComponent extends React.PureComponent {
 
   handleMarkerClick = () => {
     // this.setState({ isMarkerShown: false })
-    // this.delayedShowMarker()
+    this.delayedShowMarker()
   }
 
   getVessels = () => {
