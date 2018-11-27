@@ -70,7 +70,12 @@ const MyMapComponent = compose(
           }
           // iconUrl =  "assets/img/favicon_rh-48x48.png";
           // console.log('iconUrl : ', 'assets/img/ship/black/ship_0' + iconUrl);
-          const markerIcon = require('assets/img/ship/black/ship_0' + iconUrl);
+          let markerIcon = require('assets/img/ship/black/ship_0' + iconUrl);
+          if(vessel.update_state === 2){
+            markerIcon = require('assets/img/ship/red/ship_0' + iconUrl);
+          } else if (vessel.update_state === 1){
+            markerIcon = require('assets/img/ship/green/ship_0' + iconUrl);
+          }
           return <Marker 
             position={{ lat: parseFloat(vessel.lat), lng: parseFloat(vessel.long) }} 
             icon={{
@@ -104,7 +109,7 @@ class MyFancyComponent extends React.PureComponent {
   }
 
   handleMarkerClick = () => {
-    this.setState({ isMarkerShown: false })
+    // this.setState({ isMarkerShown: false })
     // this.delayedShowMarker()
   }
 
