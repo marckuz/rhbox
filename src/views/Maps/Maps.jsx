@@ -239,6 +239,11 @@ class MyFancyComponent extends React.PureComponent {
     request(requestURL, { method: 'GET' })
       .then(response => {
         // console.log('response ==== ', response.rows);
+        if(response.alert){
+          localStorage.clear();
+          sessionStorage.clear();
+          this.props.history.push('/signin')
+        }
         this.setState({vessels: response.rows});
       })
       .catch(err => {
