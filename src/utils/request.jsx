@@ -69,11 +69,16 @@ export default function request(
   }
 
   const token = auth.getToken();
+  const userInfo = auth.getUserInfo();
+  console.log('userInfo = ', userInfo);
+
 
   if (token) {
     options.headers = Object.assign(
       {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
+        token: `${token}`,
+        userid: `${userInfo.id}`,
       },
       options.headers
     );

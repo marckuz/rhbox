@@ -88,31 +88,31 @@ class HeaderLinks extends React.Component {
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        Mike John responded to your email
+                        Modem state not in network
                       </MenuItem>
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        You have 5 new tasks
+                        Modem state not in network
                       </MenuItem>
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        You're now friend with Andrew
+                        Modem state not in network
                       </MenuItem>
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        Another Notification
+                        Modem state not in network
                       </MenuItem>
                       <MenuItem
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        Another One
+                        Modem state not in network
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>

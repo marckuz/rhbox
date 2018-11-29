@@ -46,7 +46,11 @@ class SignIn extends React.Component {
         console.log('response ==== ', response);
 
         auth.setToken(response.auth_key, body.rememberMe);
-        auth.setUserInfo(response.username, body.rememberMe);
+        const userinfo = {
+          username: response.username,
+          id: response.id
+        }
+        auth.setUserInfo(userinfo, body.rememberMe);
         this.redirectUser();
       })
       .catch(err => {
