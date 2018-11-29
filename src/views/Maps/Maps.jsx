@@ -14,13 +14,13 @@ const MyMapComponent = compose(
     containerElement: <div style={{ height: `100vh` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
-  // withStateHandlers(() => ({
-  //   isOpen: true,
-  // }), {
-  //   onToggleOpen: ({ isOpen }) => () => ({
-  //     isOpen: !isOpen,
-  //   })
-  // }),
+  withStateHandlers(() => ({
+    isOpen: true,
+  }), {
+    onToggleOpen: ({ isOpen }) => () => ({
+      isOpen: !isOpen,
+    })
+  }),
   withHandlers({
     onMarkerClustererClick: () => (markerClusterer) => {
       const clickedMarkers = markerClusterer.getMarkers()
@@ -75,7 +75,7 @@ const MyMapComponent = compose(
   withGoogleMap
 )((props) =>
   <GoogleMap
-    defaultZoom={10}
+    defaultZoom={3}
     defaultCenter={{ lat: 51.33383, lng: 3.20050 }}
   >
     <MarkerClusterer
@@ -122,17 +122,17 @@ const MyMapComponent = compose(
               url: markerIcon, 
               anchor: new google.maps.Point(25, 25),
             }}
-            onClick={()=>{props.toggleVesselInfo(props.vessels[key])}}
+            // onClick={()=>{props.toggleVesselInfo(props.vessels[key])}}
             // onClick={()=>{props.toggleVesselInfo(key)}}
             // onClick={props.onToggleOpen}
             obj={vessel} 
             key={key} >
             {/* {console.log('vessel = ',vessel.vessel_id)} */}
             {/* {console.log('props.vessels[i].isOpen === ', props.vessels[key].isOpen)} */}
-              {/* {props.isOpen && <InfoBox */}
-              {props.vessels[key].isOpen && <InfoBox
+              {props.isOpen && <InfoBox
+              // {props.vessels[key].isOpen && <InfoBox
                 position={{ lat: parseFloat(vessel.lat), lng: parseFloat(vessel.long) }} 
-                onCloseClick={props.toggleVesselInfo(props.vessels[key])}
+                // onCloseClick={props.toggleVesselInfo(props.vessels[key])}
                 options={{ 
                   pane: "overlayLayer",
                   alignBottom: true,
@@ -153,7 +153,7 @@ const MyMapComponent = compose(
                     </p>
                     <span className="popover-close" title="OFF" onClick={()=>{props.toggleVesselInfo(props.vessels[key])}}>×</span>
                   </div>
-                  <div className="popover-body">
+                  {/* <div className="popover-body">
                     <div className="popover-body-bottom">
                       <p className="item">
                         <span className="title" title="Position Source">Position Source: </span>
@@ -182,7 +182,7 @@ const MyMapComponent = compose(
                     </div>
                   </div>
                   <div className="popover-footer">
-                  </div>
+                  </div> */}
                 </div>
               </InfoBox>
               }
