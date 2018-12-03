@@ -47,8 +47,8 @@ const MyMapComponent = compose(
   withGoogleMap
 )((props) =>
   <GoogleMap
-    defaultZoom={1}
-    defaultCenter={{ lat: 51.33383, lng: 3.20050 }}
+    defaultZoom={3}
+    defaultCenter={{ lat: 28.14002, lng:-15.42113 }}
   >
     <MarkerClusterer
       onClick={props.onMarkerClustererClick}
@@ -56,7 +56,7 @@ const MyMapComponent = compose(
       enableRetinaIcons
       gridSize={60}
     >
-      {/* {console.log('vessels = ', props.vessels)} */}
+      {console.log('vessels = ', props.vessels)}
 
       {Object.keys(props.vessels).map(function(key){
           const vessel = props.vessels[key];
@@ -85,6 +85,10 @@ const MyMapComponent = compose(
             markerIcon = require('assets/img/ship/red/ship_0' + iconUrl);
           } else if (vessel.update_state === 1){
             markerIcon = require('assets/img/ship/green/ship_0' + iconUrl);
+          }
+
+          if(parseFloat(vessel.lat) === 0 || parseFloat(vessel.long) === 0){
+            return;
           }
 
           return <Marker 
