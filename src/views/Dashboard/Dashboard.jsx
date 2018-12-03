@@ -14,17 +14,83 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-
-import { announcement } from "variables/general.jsx";
-
+import constants from "variables/constants";
+import request from 'utils/request';
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    announcement: [],
+    clients: {},
+    shipowners: {},
+    vessels: {}
   };
+  componentDidMount() {
+    this.getAnnouncement();
+    this.getStats();
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
+  };
+
+  getAnnouncement = () => {
+    const requestURL = constants.API_URL+'/announcement';
+
+    request(requestURL, { method: 'GET' })
+      .then(response => {
+        const ann = [];
+        for (let i = 0; i < response.rows.length; i++) {
+          const announcement = [];
+          const row = response.rows[i];
+          announcement.push(row.time);
+          announcement.push(row.subject);
+          ann.push(announcement)
+        }
+        this.setState({announcement: ann});
+      })
+      .catch(err => {
+        console.log('errr ==== ', err);
+        this.setState({announcement: []});
+      })
+  };
+
+  getStats = () => {
+    const requestURL = constants.API_URL+'/statistics';
+
+    request(requestURL, { method: 'GET' })
+      .then(response => {
+        this.setState({clients: response.clients});
+        this.setState({shipowners: response.shipowners});
+        this.setState({vessels: response.vessels});
+      })
+      .catch(err => {
+        console.log('errr ==== ', err);
+        this.setState({announcement: []});
+      })
+  };
+
+  returnTopShipOwner = () => {
+    let owners = "";
+    if(this.state.shipowners.top_ship_owner){
+      for (let i = 0; i < this.state.shipowners.top_ship_owner.length; i++) {
+        const owner = this.state.shipowners.top_ship_owner[i];
+        owners += owner.shipowner_name+" ("+owner.count+") <br/>";
+      }
+    }
+    return owners;
+  };
+
+  returnTopClient = () => {
+    let clients = "";
+    if(this.state.clients.top_client){
+      for (let i = 0; i < this.state.clients.top_client.length; i++) {
+        const client = this.state.clients.top_client[i];
+        clients += client.client_name+" ("+client.count+") <br/>";
+      }
+    }
+    return clients;
   };
 
   handleChangeIndex = index => {
@@ -43,16 +109,16 @@ class Dashboard extends React.Component {
                 </CardIcon>
                 <p className={classes.cardCategory}>Vessels</p>
                 <h3 className={classes.cardTitle}>
-                  18
+                  {this.state.vessels.count}
                 </h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                5 are paying a monthly fee <br/>
-                1 are in demo-period <br/>
-                5 should not pay <br/>
-                5 are installed in the labo <br/>
-                2 are not installed yet <br/>
+                {this.state.vessels.paying} are paying a monthly fee <br/>
+                {this.state.vessels.demo} are in demo-period <br/>
+                {this.state.vessels.not_pay} should not pay <br/>
+                {this.state.vessels.labo} are installed in the labo <br/>
+                {this.state.vessels.be_installed} are not installed yet <br/>
                 </div>
               </CardFooter>
             </Card>
@@ -64,14 +130,14 @@ class Dashboard extends React.Component {
                   <Icon>vpn_key</Icon>
                 </CardIcon>
                 <p className={classes.cardCategory}>Shipowners</p>
-                <h3 className={classes.cardTitle}>8</h3>
+                <h3 className={classes.cardTitle}>
+                  {this.state.shipowners.count}
+                </h3>
               </CardHeader>
               <CardFooter stats>
-                <div className={classes.stats}>
-                  Radio Holland BE (7 Vessels) <br/>
-                  PCCW (3 Vessels) <br/>
-                  FSO Owner (2 Vessels) <br/>
-                  OOS Owner (2 Vessels) <br/>
+                <div 
+                  className={classes.stats}
+                  dangerouslySetInnerHTML={{__html: this.returnTopShipOwner()}} >
                 </div>
               </CardFooter>
             </Card>
@@ -83,12 +149,14 @@ class Dashboard extends React.Component {
                   <Accessibility />
                 </CardIcon>
                 <p className={classes.cardCategory}>Clients</p>
-                <h3 className={classes.cardTitle}>2</h3>
+                <h3 className={classes.cardTitle}>
+                {this.state.clients.count}
+                </h3>
               </CardHeader>
               <CardFooter stats>
-                <div className={classes.stats}>
-                  Radio Holland - BE (12 Vessels) <br/>
-                  Radio Holland - NL (6 Vessels)
+                <div 
+                  className={classes.stats}
+                  dangerouslySetInnerHTML={{__html: this.returnTopClient()}} >
                 </div>
               </CardFooter>
             </Card>
@@ -106,8 +174,8 @@ class Dashboard extends React.Component {
               <CardBody>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={[""]}
-                  tableData={[announcement]}
+                  tableHead={["Date", "Subject"]}
+                  tableData={this.state.announcement}
                 />
               </CardBody>
             </Card>

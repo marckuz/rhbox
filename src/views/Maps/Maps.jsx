@@ -140,18 +140,20 @@ const MyMapComponent = compose(
                           {vessel.long +" "+vessel.lat}
                         </span>
                       </p>
-                      <p className="item">
+                      {vessel.heading > 0 && <p className="item">
                         <span className="title" title="Heading Source">Heading Source: </span>
                         <span className="text" title={vessel.heading_source}>
                           {vessel.heading_source}
                         </span>
                       </p>
-                      <p className="item">
+                      }
+                      {vessel.heading > 0 && <p className="item">
                         <span className="title" title="Heading">Heading: </span>
                         <span className="text" title={vessel.heading}>
                           {vessel.heading}
                         </span>
                       </p>
+                       }
                     </div>
                   </div>
                   <div className="popover-footer">
