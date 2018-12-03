@@ -87,6 +87,10 @@ const MyMapComponent = compose(
             markerIcon = require('assets/img/ship/green/ship_0' + iconUrl);
           }
 
+          if(vessel.heading === 0){
+            markerIcon = require('assets/img/ship/round.png');
+          }
+          console.log('markerIcon == ', markerIcon);
           if(parseFloat(vessel.lat) === 0 || parseFloat(vessel.long) === 0){
             return;
           }
