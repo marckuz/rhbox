@@ -24,8 +24,6 @@ const MyMapComponent = compose(
   withHandlers({
     onMarkerClustererClick: () => (markerClusterer) => {
       const clickedMarkers = markerClusterer.getMarkers()
-      // console.log(`Current clicked markers length: ${clickedMarkers.length}`)
-      // console.log(clickedMarkers)
     },
   }),
   lifecycle({
@@ -34,38 +32,12 @@ const MyMapComponent = compose(
         vessels: {},
 
         toggleVesselInfo: (vessel) => {
-          // this.props.vessels[key]['isOpen'] = !this.props.vessels[key]['isOpen'];
-          // console.log('vessel == ', this.props.vessels[key]);
-          // this.setState((state, props) => ({
-          //   vessels : props.vessels
-          // }));
-         
-            this.props.hey(vessel);
-          
-
+            this.props.toggleVesselInfo(vessel);
         }
       })
-      // console.log('componentWillMount = ');
-      
-    },
-
-    componentDidUpdate: function(nextProps) {
-      // console.log('componentDidUpdate = ');
-
-      // this.setState({
-      //   vessels : nextProps.vessels ? nextProps.vessels : {}
-      // })
-    },
-    shouldComponentUpdates: function(nextProps) {
-      // console.log('shouldComponentUpdates = ');
-
-      // this.setState({
-      //   vessels : nextProps.vessels ? nextProps.vessels : {}
-      // })
     },
     
     componentWillReceiveProps: function(nextProps) {
-      // console.log('componentWillReceiveProps = ');
       this.setState({
         vessels : nextProps.vessels ? nextProps.vessels : {}
       })
@@ -75,7 +47,7 @@ const MyMapComponent = compose(
   withGoogleMap
 )((props) =>
   <GoogleMap
-    defaultZoom={3}
+    defaultZoom={1}
     defaultCenter={{ lat: 51.33383, lng: 3.20050 }}
   >
     <MarkerClusterer
@@ -107,7 +79,6 @@ const MyMapComponent = compose(
           }else{
             iconUrl = '.png' 
           }
-          // iconUrl =  "assets/img/favicon_rh-48x48.png";
           // console.log('iconUrl : ', 'assets/img/ship/black/ship_0' + iconUrl);
           let markerIcon = require('assets/img/ship/black/ship_0' + iconUrl);
           if(vessel.update_state === 2){
@@ -122,17 +93,11 @@ const MyMapComponent = compose(
               url: markerIcon, 
               anchor: new google.maps.Point(25, 25),
             }}
-            // onClick={()=>{props.toggleVesselInfo(props.vessels[key])}}
-            // onClick={()=>{props.toggleVesselInfo(key)}}
-            // onClick={props.onToggleOpen}
+            onClick={()=>{props.toggleVesselInfo(props.vessels[key])}}
             obj={vessel} 
             key={key} >
-            {/* {console.log('vessel = ',vessel.vessel_id)} */}
-            {/* {console.log('props.vessels[i].isOpen === ', props.vessels[key].isOpen)} */}
-              {props.isOpen && <InfoBox
-              // {props.vessels[key].isOpen && <InfoBox
+               {props.vessels[key].isOpen && <InfoBox
                 position={{ lat: parseFloat(vessel.lat), lng: parseFloat(vessel.long) }} 
-                // onCloseClick={props.toggleVesselInfo(props.vessels[key])}
                 options={{ 
                   pane: "overlayLayer",
                   alignBottom: true,
@@ -153,7 +118,7 @@ const MyMapComponent = compose(
                     </p>
                     <span className="popover-close" title="OFF" onClick={()=>{props.toggleVesselInfo(props.vessels[key])}}>×</span>
                   </div>
-                  {/* <div className="popover-body">
+                  <div className="popover-body">
                     <div className="popover-body-bottom">
                       <p className="item">
                         <span className="title" title="Position Source">Position Source: </span>
@@ -182,7 +147,7 @@ const MyMapComponent = compose(
                     </div>
                   </div>
                   <div className="popover-footer">
-                  </div> */}
+                  </div>
                 </div>
               </InfoBox>
               }
@@ -200,37 +165,21 @@ class MyFancyComponent extends React.PureComponent {
   }
 
   componentDidMount() {
-    // console.log('main componentDidMount');
     this.getVessels();
   }
 
-  componentWillReceiveProps() {
-    // console.log('main componentWillReceiveProps = ');
-  }
+  toggleVesselInfo = (vessel) => {
 
-  shouldComponentUpdates() {
-    // console.log('main shouldComponentUpdates = ');
-  }
+    let vessels = Object.assign({}, this.state.vessels);
 
-  hey = (vessel) => {
-    // console.log('this.state.vessels ========= ', this.state.vessels);
-
-    // let vessels = Object.assign({}, this.state.vessels);
-
-    // for(let i in vessels){
-    //   // console.log(this.props.vessels[i]['vessel_id'] +"!="+ vessel.vessel_id);
-    //   if(vessels[i].vessel_id != vessel.vessel_id){
-    //     vessels[i].isOpen = false;
-    //   }else{
-    //     console.log(vessels[i].isOpen);
-    //     vessels[i].isOpen = !vessel.isOpen;
-    //     console.log(vessels[i].isOpen);
-    //     // this.setState({ state: this.state }); 
-    //   }
-    // }
-    // console.log('itemmmmssss ========= ', vessels);
-
-    // this.setState({vessels});
+    for(let i in vessels){
+      if(vessels[i].vessel_id != vessel.vessel_id){
+        vessels[i].isOpen = false;
+      }else{
+        vessels[i].isOpen = !vessel.isOpen;
+      }
+    }
+    this.setState({vessels});
   }
 
   getVessels = () => {
@@ -238,7 +187,6 @@ class MyFancyComponent extends React.PureComponent {
 
     request(requestURL, { method: 'GET' })
       .then(response => {
-        // console.log('response ==== ', response.rows);
         if(response.alert){
           localStorage.clear();
           sessionStorage.clear();
@@ -687,7 +635,7 @@ class MyFancyComponent extends React.PureComponent {
     return (
       <MyMapComponent
         vessels={this.state.vessels}
-        hey={this.hey}
+        toggleVesselInfo={this.toggleVesselInfo}
       />
     )
   }
