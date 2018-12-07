@@ -32,6 +32,11 @@ const MyMapComponent = compose(
     componentWillMount() {
       this.setState({
         vessels: [],
+        center: { 
+          lat: 28.14002, 
+          lng:-15.42113 
+        },
+        zoom: 3,
 
         toggleVesselInfo: (vessel) => {
             this.props.toggleVesselInfo(vessel);
@@ -44,16 +49,19 @@ const MyMapComponent = compose(
     
     componentWillReceiveProps: function(nextProps) {
       this.setState({
-        vessels : nextProps.vessels ? nextProps.vessels : []
+        vessels : nextProps.vessels ? nextProps.vessels : [],
+        center : nextProps.center ? nextProps.center : this.state.center,
+        zoom : nextProps.zoom ? nextProps.zoom : 3
       })
+      console.log('nextProps ==== ', nextProps);
     },
   }),
   withScriptjs,
   withGoogleMap
 )((props) =>
   <GoogleMap
-    defaultZoom={3}
-    defaultCenter={{ lat: 28.14002, lng:-15.42113 }}
+    zoom={props.zoom}
+    center={props.center}
   >
     <MarkerClusterer
       onClick={props.onMarkerClustererClick}
@@ -150,26 +158,44 @@ const MyMapComponent = compose(
 
 class MyFancyComponent extends React.PureComponent {
   state = {
-    vessels: []
+    vessels: [],
+    center: { 
+      lat: 28.14002, 
+      lng:-15.42113 
+    },
+    zoom: 3
   }
 
   componentDidMount() {
     this.getVessels();
   }
 
-  toggleVesselInfo = (vessel, shoulOpen=false) => {
+  toggleVesselInfo = (vessel) => {
+    let center = {}
     let vessels = Object.assign([], this.state.vessels);
     for(let i in vessels){
       if(vessels[i].vessel_id != vessel.vessel_id){
         vessels[i].isOpen = false;
       }else{
         vessels[i].isOpen = !vessel.isOpen;
-        if(shoulOpen){
-          vessels[i].isOpen = true;
+        if(vessels[i].isOpen){
+          center = {
+            lat: parseFloat(vessels[i].lat),
+            lng: parseFloat(vessels[i].long)
+          }
         }
       }
     }
-    this.setState({vessels});
+    if(center.lat && center.lng){
+      this.setState({
+        center: center,
+        zoom: 13,
+        vessels
+      })
+      console.log('defcenter = ', center);
+    } else {
+      this.setState({vessels});
+    }
   }
 
   getVesselIcon = (vessel) =>{
@@ -224,9 +250,9 @@ class MyFancyComponent extends React.PureComponent {
 
   generateList() {
     return this.state.vessels.map(vessel =>
-      <ListItem 
+      <ListItem button
         key={`item-${vessel.vessel_id}`}
-        // onMouseOver={this.toggleVesselInfo(vessel, true)}
+        onClick={()=>this.toggleVesselInfo(vessel)}
         >
         <ListItemAvatar>
           <Avatar 
@@ -251,6 +277,8 @@ class MyFancyComponent extends React.PureComponent {
           vessels={this.state.vessels}
           toggleVesselInfo={this.toggleVesselInfo}
           getVesselIcon={this.getVesselIcon}
+          center={this.state.center}
+          zoom={this.state.zoom}
         />
       </div>
     )
